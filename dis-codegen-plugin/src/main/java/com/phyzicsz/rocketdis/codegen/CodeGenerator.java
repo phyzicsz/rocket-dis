@@ -17,6 +17,7 @@ package com.phyzicsz.rocketdis.codegen;
 
 import com.phyzicsz.rocketdis.codegen.exceptions.CodeGenerationConfigurationException;
 import com.phyzicsz.rocketdis.codegen.api.DisClass;
+import com.phyzicsz.rocketdis.codegen.api.DisClassConverter;
 import com.phyzicsz.rocketdis.codegen.api.DisClasses;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -56,6 +57,7 @@ public class CodeGenerator {
         xstream.processAnnotations(DisClasses.class);
         XStream.setupDefaultSecurity(xstream);
         xstream.allowTypes(allowedClasses);
+        ///xstream.registerConverter(new DisClassConverter());
 
         URL url = getClass().getClassLoader().getResource(DIS_INPUT_FILE);
         
@@ -76,7 +78,7 @@ public class CodeGenerator {
         
         for (DisClass disClass : classes.getClasses()) {
             
-            if(disClass.getName().contains("AcknowledgePdu"))
+            if(disClass.getName().get().contains("ChangeOptions"))
             {
                 int i = 0;
             }

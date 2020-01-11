@@ -20,6 +20,11 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 /**
  *
@@ -29,6 +34,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 public class DisAttribute {
 
     @XStreamAsAttribute
+    
     private String name;
 
     @XStreamAsAttribute

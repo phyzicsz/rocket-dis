@@ -44,26 +44,17 @@ public class DisClassGenerator {
     
     public DisClassGenerator generate(String javaPackage, DisClass idl) throws ClassNotFoundException {
 
-        TypeSpec.Builder mainBuilder = TypeSpec.classBuilder(idl.getName())
+        TypeSpec.Builder mainBuilder = TypeSpec.classBuilder(idl.getName().get())
                 .addSuperinterface(Serializable.class)
                 .addSuperinterface(ClassName.get(javaPackage,"AbstractDisObject"))
                 .addModifiers(Modifier.PUBLIC)
-                .addJavadoc(idl.getComment());
+                .addJavadoc(idl.getComment().get());
         
-        if(null != idl.getParent() && !idl.getParent().equals("root")){
-            mainBuilder.superclass(ClassName.get(javaPackage,idl.getParent()));
+//        if(idl.getParent().isPresent() && !idl.getParent().equals("root")){
+        if(idl.getParent().filter(parent -> !parent.equals("root")).isPresent()){
+            mainBuilder.superclass(ClassName.get(javaPackage,idl.getParent().get()));
         }
         
-        if(null != idl.getIsAbstract() && idl.getIsAbstract()){
-            mainBuilder.addModifiers(Modifier.ABSTRACT);
-            javaFile = JavaFile.builder(javaPackage, mainBuilder.build())
-                    .addFileComment(insertHeader(idl.getComment()))
-                    .skipJavaLangImports(true)
-                    .build();
-
-            return this;
-        }
-
         //check if there are no attributes
         //if there are none, will need to inject unimplemented methods of
         //acbstract base class
@@ -83,7 +74,7 @@ public class DisClassGenerator {
                     .addMethod(deserializer);
             
             javaFile = JavaFile.builder(javaPackage, mainBuilder.build())
-                .addFileComment(insertHeader(idl.getComment()))
+                .addFileComment(insertHeader(idl.getComment().get()))
                 .skipJavaLangImports(true)
                 .build();
             
@@ -114,7 +105,7 @@ public class DisClassGenerator {
                 .addMethod(hashCode);
        
         javaFile =  JavaFile.builder(javaPackage, mainBuilder.build())
-                .addFileComment(insertHeader(idl.getComment()))
+                .addFileComment(insertHeader(idl.getComment().get()))
                 .skipJavaLangImports(true)
                 .build();
         

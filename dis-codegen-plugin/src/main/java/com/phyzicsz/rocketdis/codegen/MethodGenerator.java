@@ -40,8 +40,8 @@ public class MethodGenerator {
         MethodSpec.Builder method = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC);
 
-        if (null != dis.getInitialValue()) {
-            for (DisInitialValue initialValue : dis.getInitialValue()) {
+        if (null != dis.getInitialValues()) {
+            for (DisInitialValue initialValue : dis.getInitialValues()) {
                 method.addStatement("$L = $L", initialValue.getName(), initialValue.getInitialValue());
             }
         }
@@ -105,7 +105,8 @@ public class MethodGenerator {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class);
 
-        if (null != dis.getParent() && !dis.getParent().equals("root")) {
+//        if (null != dis.getParent() && !dis.getParent().equals("root")) {
+        if(dis.getParent().filter(parent -> !parent.equals("root")).isPresent()){
             method.addStatement("wirelineSize += super.wirelineSize()");
         }
 
@@ -151,7 +152,8 @@ public class MethodGenerator {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class);
 
-        if (null != dis.getParent() && !dis.getParent().equals("root")) {
+//        if (null != dis.getParent() && !dis.getParent().equals("root")) {
+        if(dis.getParent().filter(parent -> !parent.equals("root")).isPresent()){
             builder.addStatement("super.serialize(buffer)");
         }
 
@@ -195,7 +197,8 @@ public class MethodGenerator {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class);
 
-        if (null != dis.getParent() && !dis.getParent().equals("root")) {
+//        if (null != dis.getParent() && !dis.getParent().equals("root")) {
+        if(dis.getParent().filter(parent -> !parent.equals("root")).isPresent()){
             builder.addStatement("super.deserialize(buffer)");
         }
 
@@ -238,7 +241,7 @@ public class MethodGenerator {
                 .addStatement("return false")
                 .endControlFlow();
 
-        method.addStatement("final $L other = ($L)obj", dis.getName(), dis.getName());
+        method.addStatement("final $L other = ($L)obj", dis.getName().get(), dis.getName().get());
 
         for (DisAttribute attr : dis.getAttributes()) {
             TypeName objectType = TypeName.get(Objects.class);

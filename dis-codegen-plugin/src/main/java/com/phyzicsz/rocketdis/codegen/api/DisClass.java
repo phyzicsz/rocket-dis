@@ -15,74 +15,66 @@
  */
 package com.phyzicsz.rocketdis.codegen.api;
 
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author phyzicsz
  */
-public class DisClass {
+@XStreamConverter(DisClassConverter.class)
+public class DisClass{
 
     @XStreamAsAttribute
-    private String name;
+    
+    private Optional<String> name = Optional.empty();
 
     @XStreamAsAttribute
     @XStreamAlias("inheritsFrom")
-    private String parent;
+    private Optional<String> parent = Optional.empty();
 
     @XStreamAsAttribute
-    private String comment;
-    
-    @XStreamAsAttribute
-    @XStreamAlias("isabstract")
-    private Boolean isAbstract = false;
+    private Optional<String> comment = Optional.empty();
 
     @XStreamImplicit(itemFieldName="attribute")
     private List<DisAttribute> attributes = new ArrayList<>();
     
     @XStreamImplicit(itemFieldName="initialValue")
-    private List<DisInitialValue> initialValue;
+    private List<DisInitialValue> initialValue = new ArrayList<>();
    
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = Optional.ofNullable(name);
     }
 
-    public String getParent() {
+    public Optional<String> getParent() {
         return parent;
     }
 
     public void setParent(String parent) {
-        this.parent = parent;
+        this.parent = Optional.ofNullable(parent);
     }
 
-    public String getComment() {
+    public Optional<String> getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Boolean getIsAbstract() {
-        return isAbstract;
-    }
-
-    public void setIsAbstract(Boolean isAbstract) {
-        this.isAbstract = isAbstract;
+        this.comment = Optional.ofNullable(comment);
     }
     
-    
 
-    public void setAttribute(DisAttribute attribute) {
+    public void addAttribute(DisAttribute attribute) {
         this.attributes.add(attribute);
     }
 
@@ -93,12 +85,18 @@ public class DisClass {
     public void setAttributes(List<DisAttribute> attributes) {
         this.attributes = attributes;
     }
+    
+    public void addInitialValue(DisInitialValue initialValue) {
+        this.initialValue.add(initialValue);
+    } 
 
-    public List<DisInitialValue> getInitialValue() {
+    public List<DisInitialValue> getInitialValues() {
         return initialValue;
     }
 
-    public void setInitialValue(List<DisInitialValue> initialValue) {
+    public void setInitialValues(List<DisInitialValue> initialValue) {
         this.initialValue = initialValue;
     } 
+
+    
 }
