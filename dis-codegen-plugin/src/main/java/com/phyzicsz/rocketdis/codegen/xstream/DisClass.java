@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream;
 
 
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisClassConverter;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;

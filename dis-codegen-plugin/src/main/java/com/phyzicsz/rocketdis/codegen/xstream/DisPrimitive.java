@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream;
 
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -21,17 +21,29 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author phyzicsz
  */
-public class DisClassRef {
+public class DisPrimitive {
     
     @XStreamAsAttribute
-    private String name;
+    private String type;
+    
+    private DisFlags flags;
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
+
+    public DisFlags getFlags() {
+        return flags;
+    }
+
+    public void setFlags(DisFlags flags) {
+        this.flags = flags;
+    }
+    
+    
     
 }

@@ -15,7 +15,7 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.api.DisAttribute;
+import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
 import com.squareup.javapoet.MethodSpec;
 
 /**
@@ -25,8 +25,8 @@ import com.squareup.javapoet.MethodSpec;
 public class SerializerBuilder {
 
     public static MethodSpec.Builder singleTypeBuilder(DisAttribute attr, MethodSpec.Builder builder) {
-        String name = attr.getName();
-        String type = attr.getPrimitive().getType();
+        String name = attr.getName().get();
+        String type = attr.getPrimitive().get().getType();
 
         switch (type) {
             case "unsigned short":
@@ -67,8 +67,8 @@ public class SerializerBuilder {
     }
 
     public static MethodSpec.Builder fixedLengthBuilder(DisAttribute attr, MethodSpec.Builder builder) {
-        String name = attr.getName();
-        String type = attr.getPrimitive().getType();
+        String name = attr.getName().get();
+        String type = attr.getPrimitive().get().getType();
 
         switch (type) {
             case "unsigned short":
@@ -130,7 +130,7 @@ public class SerializerBuilder {
 
     public static MethodSpec.Builder listBuilder(DisAttribute attr, MethodSpec.Builder builder) {
         builder.beginControlFlow("for (int i = 0; i < $L.size(); i++)", attr.getName())
-                .addStatement("$L listElement = $L.get(i)", attr.getPrimitive().getType(), attr.getName())
+                .addStatement("$L listElement = $L.get(i)", attr.getPrimitive().get().getType(), attr.getName())
                 .addStatement("listElement.serialize(buffer)")
                 .endControlFlow();
         return builder;

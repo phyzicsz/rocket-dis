@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream;
 
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -21,51 +21,19 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author phyzicsz
  */
-public class DisFixedList {
-    
-    @XStreamAsAttribute
-    private String type;
-    
-    @XStreamAsAttribute
-    private Integer length;
-    
-    @XStreamAsAttribute
-    private Boolean couldBeString;
-    
-    private DisPrimitive primitive;    
+public class DisVariableList {
 
+    @XStreamAsAttribute
+    private String countFieldName;
+    
     private DisClassRef classRef;
 
-    public String getType() {
-        return type;
+    public String getCountFieldName() {
+        return countFieldName;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-    public Boolean getCouldBeString() {
-        return couldBeString;
-    }
-
-    public void setCouldBeString(Boolean couldBeString) {
-        this.couldBeString = couldBeString;
-    }
-
-    public DisPrimitive getPrimitive() {
-        return primitive;
-    }
-
-    public void setPrimitive(DisPrimitive primitive) {
-        this.primitive = primitive;
+    public void setCountFieldName(String countFieldName) {
+        this.countFieldName = countFieldName;
     }
 
     public DisClassRef getClassRef() {
@@ -75,7 +43,7 @@ public class DisFixedList {
     public void setClassRef(DisClassRef classRef) {
         this.classRef = classRef;
     }
-    
+
     
     
     

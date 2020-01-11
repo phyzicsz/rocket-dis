@@ -15,9 +15,9 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.api.DisAttribute;
-import com.phyzicsz.rocketdis.codegen.api.DisClass;
-import com.phyzicsz.rocketdis.codegen.api.DisInitialValue;
+import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
+import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
+import com.phyzicsz.rocketdis.codegen.xstream.DisInitialValue;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -113,15 +113,15 @@ public class MethodGenerator {
         for (DisAttribute attr : dis.getAttributes()) {
 
             String size = attr.getTypeSize();
-            if (null != attr.getFixedList()) {
-                method.addStatement("wirelineSize += $L; //$L", attr.getFixedList().getLength(), attr.getName());
-            } else if (null != attr.getVariableList()) {
-                method.beginControlFlow("for (int i = 0; i < $L.size(); i++)", attr.getName())
-                        .addStatement("$L listElement = $L.get(i)", attr.getType(), attr.getName())
+            if (attr.getFixedList().isPresent()) {
+                method.addStatement("wirelineSize += $L; //$L", attr.getFixedList().get().getLength(), attr.getName().get());
+            } else if (attr.getVariableList().isPresent()) {
+                method.beginControlFlow("for (int i = 0; i < $L.size(); i++)", attr.getName().get())
+                        .addStatement("$L listElement = $L.get(i)", attr.getType(), attr.getName().get())
                         .addStatement("wirelineSize += listElement.wirelineSize()")
                         .endControlFlow();
             } else {
-                method.addStatement("wirelineSize += $L; //$L", size, attr.getName());
+                method.addStatement("wirelineSize += $L; //$L", size, attr.getName().get());
             }
         }
 
@@ -245,7 +245,7 @@ public class MethodGenerator {
 
         for (DisAttribute attr : dis.getAttributes()) {
             TypeName objectType = TypeName.get(Objects.class);
-            method.beginControlFlow("if (!$T.equals(this.$L,other.$L))", objectType, attr.getName(), attr.getName())
+            method.beginControlFlow("if (!$T.equals(this.$L,other.$L))", objectType, attr.getName().get(), attr.getName().get())
                     .addStatement("return false")
                     .endControlFlow();
         }

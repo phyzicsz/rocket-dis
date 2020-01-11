@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream.converters;
 
+import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
+import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
+import com.phyzicsz.rocketdis.codegen.xstream.DisInitialValue;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;

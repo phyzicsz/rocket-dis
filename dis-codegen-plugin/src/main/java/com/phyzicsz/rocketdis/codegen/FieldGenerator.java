@@ -15,7 +15,7 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.api.DisAttribute;
+import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
 import com.squareup.javapoet.ArrayTypeName;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -33,30 +33,30 @@ public class FieldGenerator {
         TypeName type = attr.getType();
         
         //check if fixed list
-        if ((null != attr.getFixedList())) {
+        if ((attr.getFixedList().isPresent())) {
 
             TypeName typeName = ArrayTypeName.of(type);
-            FieldSpec.Builder field = FieldSpec.builder(typeName, attr.getName())
+            FieldSpec.Builder field = FieldSpec.builder(typeName, attr.getName().get())
                     .addModifiers(Modifier.PROTECTED);
-            field.initializer("new $T[$L]", type, attr.getFixedList().getLength());
+            field.initializer("new $T[$L]", type, attr.getFixedList().get().getLength());
             if (!type.isPrimitive()) {
                 field.initializer("new $T()", type);
             }
             return field.build();
 
-        } else if (null != attr.getVariableList()) {
+        } else if (attr.getVariableList().isPresent()) {
             //ClassName list = ClassName.get("java.util", "List");
             ClassName arrayList = ClassName.get("java.util", "ArrayList");
             TypeName types = ParameterizedTypeName.get(arrayList, type);
 
-            FieldSpec field = FieldSpec.builder(types, attr.getName())
+            FieldSpec field = FieldSpec.builder(types, attr.getName().get())
                     .addModifiers(Modifier.PROTECTED)
                     .initializer("new $T<>()", arrayList)
                     .build();
 
             return field;
         } else {
-            FieldSpec.Builder field = FieldSpec.builder(type, attr.getName())
+            FieldSpec.Builder field = FieldSpec.builder(type, attr.getName().get())
                     .addModifiers(Modifier.PROTECTED);
             if (!type.isPrimitive()) {
                 field.initializer("new $T()", type);

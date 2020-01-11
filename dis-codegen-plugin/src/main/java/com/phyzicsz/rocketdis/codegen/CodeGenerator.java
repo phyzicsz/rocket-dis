@@ -16,9 +16,8 @@
 package com.phyzicsz.rocketdis.codegen;
 
 import com.phyzicsz.rocketdis.codegen.exceptions.CodeGenerationConfigurationException;
-import com.phyzicsz.rocketdis.codegen.api.DisClass;
-import com.phyzicsz.rocketdis.codegen.api.DisClassConverter;
-import com.phyzicsz.rocketdis.codegen.api.DisClasses;
+import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
+import com.phyzicsz.rocketdis.codegen.xstream.DisClasses;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import java.io.File;
@@ -78,7 +77,7 @@ public class CodeGenerator {
         
         for (DisClass disClass : classes.getClasses()) {
             
-            if(disClass.getName().get().contains("ChangeOptions"))
+            if(disClass.getName().get().contains("AcousticEmitter"))
             {
                 int i = 0;
             }

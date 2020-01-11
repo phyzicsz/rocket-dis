@@ -13,38 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream;
 
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author phyzicsz
  */
-public class DisVariableList {
-
-    @XStreamAsAttribute
-    private String countFieldName;
+public class DisFlags {
     
-    private DisClassRef classRef;
+    @XStreamImplicit(itemFieldName="flag")
+    private List<DisFlag> flags = new ArrayList<>();
 
-    public String getCountFieldName() {
-        return countFieldName;
+    public List<DisFlag> getFlags() {
+        return flags;
     }
 
-    public void setCountFieldName(String countFieldName) {
-        this.countFieldName = countFieldName;
+    public void setFlags(List<DisFlag> flags) {
+        this.flags = flags;
     }
-
-    public DisClassRef getClassRef() {
-        return classRef;
-    }
-
-    public void setClassRef(DisClassRef classRef) {
-        this.classRef = classRef;
-    }
-
-    
     
     
 }

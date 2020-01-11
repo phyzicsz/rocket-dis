@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream;
 
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -21,7 +21,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author phyzicsz
  */
-public class DisList {
+public class DisFixedList {
     
     @XStreamAsAttribute
     private String type;
@@ -32,8 +32,8 @@ public class DisList {
     @XStreamAsAttribute
     private Boolean couldBeString;
     
-    private DisPrimitive primitive;   
-    
+    private DisPrimitive primitive;    
+
     private DisClassRef classRef;
 
     public String getType() {
@@ -66,7 +66,7 @@ public class DisList {
 
     public void setPrimitive(DisPrimitive primitive) {
         this.primitive = primitive;
-    } 
+    }
 
     public DisClassRef getClassRef() {
         return classRef;
@@ -75,5 +75,8 @@ public class DisList {
     public void setClassRef(DisClassRef classRef) {
         this.classRef = classRef;
     }
+    
+    
+    
     
 }

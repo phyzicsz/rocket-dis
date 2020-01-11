@@ -15,7 +15,7 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.api.DisPrimitive;
+import com.phyzicsz.rocketdis.codegen.xstream.DisPrimitive;
 import com.squareup.javapoet.TypeName;
 
 /**

@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzicsz.rocketdis.codegen.api;
+package com.phyzicsz.rocketdis.codegen.xstream;
 
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import java.util.ArrayList;
-import java.util.List;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  *
  * @author phyzicsz
  */
-public class DisFlags {
+public class DisClassRef {
     
-    @XStreamImplicit(itemFieldName="flag")
-    private List<DisFlag> flags = new ArrayList<>();
+    @XStreamAsAttribute
+    private String name;
 
-    public List<DisFlag> getFlags() {
-        return flags;
+    public String getName() {
+        return name;
     }
 
-    public void setFlags(List<DisFlag> flags) {
-        this.flags = flags;
+    public void setName(String name) {
+        this.name = name;
     }
-    
     
 }

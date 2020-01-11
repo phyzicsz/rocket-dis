@@ -15,7 +15,7 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.api.DisClass;
+import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
