@@ -11,8 +11,6 @@
         
         <!-- maven build dependancies -->
         <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-                
-
     </properties>
     
     <build>
