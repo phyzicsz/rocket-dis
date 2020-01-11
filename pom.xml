@@ -1,17 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.phyzics</groupId>
+    <groupId>com.phyzicsz</groupId>
     <artifactId>rocket-dis</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+    <name>Rocket DIS</name>
+    
+    <inceptionYear>2019</inceptionYear>
+    <description>A fast Java DIS library</description>
+    
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <scm>
+        <url>scm:git:git@github.com:phyzicsz/rocket-dis.git</url>
+        <connection>scm:git:git@github.com:phyzicsz/rocket-dis.git</connection>
+        <developerConnection>scm:git:git@github.com:phyzicsz/rocket-dis.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/phyzicsz/rocket-dis/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>phyzicsz</name>
+            <url>https://github.com/phyzicsz</url>
+            <timezone>-6</timezone>
+        </developer>
+    </developers>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.release.version>11</java.release.version>
         
+        <!-- dependancies -->
+        <google.errorprone.version>2.3.3</google.errorprone.version>
+        <jackson.version>2.10.1</jackson.version>
+        <logback.version>1.2.3</logback.version>
+        <slf4j.version>1.7.29</slf4j.version>
+        
+        <!-- test dependancies -->
+        <junit.version>4.12</junit.version>
+        <junit.jupiter.version>5.5.2</junit.jupiter.version>
+        
         <!-- maven build dependancies -->
+        <maven.build.help.plugin.version>3.0.0</maven.build.help.plugin.version>
         <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
+        <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
     </properties>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     
     <build>
         <plugins>
@@ -21,8 +87,30 @@
                 <version>${maven.plugin.compiler.version}</version>
                 <configuration>
                     <release>${java.release.version}</release>
+                    <showWarnings>${java.compiler.showWarnings}</showWarnings>
+                    <fork>true</fork>
+                    <compilerArgs>
+                        <arg>-XDcompilePolicy=simple</arg>
+                        <arg>-Xplugin:ErrorProne</arg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.errorprone</groupId>
+                            <artifactId>error_prone_core</artifactId>
+                            <version>${google.errorprone.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
             </plugin>
         </plugins>
     </build>
+    
+    <modules>
+        <module>dis-codegen-plugin</module>
+    </modules>
 </project>

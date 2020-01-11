@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 phyzicsz.
+ * Copyright 2019 pborawski.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phyzics.rocketdis;
+package com.phyzicsz.dis.datamodel.api;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author phyzicsz
+ * @author pborawski
  */
-public class App {
-    
-    
-    public static void main(String[] args){
-        
+@XStreamAlias("classes")
+public class DisClasses {
+ 
+    @XStreamImplicit(itemFieldName="class")
+    private List<DisClass> classes = new ArrayList<>();
+
+    public List<DisClass> getClasses() {
+        return classes;
     }
 
+    public void setClasses(List<DisClass> classes) {
+        this.classes = classes;
+    }
+    
+    
 }
