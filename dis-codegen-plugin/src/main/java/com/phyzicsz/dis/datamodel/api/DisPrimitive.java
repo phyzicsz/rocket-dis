@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 pborawski.
+ * Copyright 2019 phyzicsz.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  *
- * @author pborawski
+ * @author phyzicsz
  */
 public class DisPrimitive {
     

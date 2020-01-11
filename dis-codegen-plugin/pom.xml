@@ -10,13 +10,9 @@
     <packaging>maven-plugin</packaging>
     <name>Rocket DIS: DIS Maven Plugin</name>
 
-    <!--    <prerequisites>
-        <maven>3.0.5</maven>
-    </prerequisites>-->
-
     <properties>
         <commons.io.version>2.5</commons.io.version>
-        <opendis.version>v5.0</opendis.version>
+        <opendis.version>5.0</opendis.version>
         <javapoet.version>1.11.1</javapoet.version>
         <xstream.version>1.4.11.1</xstream.version>
         
@@ -54,7 +50,7 @@
         
         <!-- test dependencies -->
         <dependency>
-            <groupId>ch.qos.logback</groupId><!--<maven.version>3.3.9</maven.version>-->
+            <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
@@ -68,16 +64,10 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>com.github.open-dis</groupId>
-            <artifactId>open-dis-java</artifactId>
-            <version>${opendis.version}</version>
-            <scope>test</scope>
-        </dependency>-->
         <dependency>
             <groupId>edu.nps.moves</groupId>
             <artifactId>open-dis</artifactId>
-            <version>5.0</version>
+            <version>${opendis.version}</version>
             <scope>test</scope>
         </dependency>
         
@@ -171,13 +161,4 @@
             </plugin> 
         </plugins>
     </build>
-    
-    
-    
-<!--    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://www.jitpack.io</url>
-        </repository>
-    </repositories>-->
 </project>
