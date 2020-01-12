@@ -61,7 +61,7 @@ public class TestMethodGenerator {
       public static MethodSpec pduTypeTest(DisClass dis) {
        
            MethodSpec.Builder method;
-           if (null != dis.getParent() && !dis.getParent().equals("root")){
+           if (dis.getParent().filter(parent -> !parent.equals("root")).isPresent()) {
                method = MethodSpec
                        .methodBuilder("pduTypeTest")
                        .returns(TypeName.VOID)

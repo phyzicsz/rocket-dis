@@ -15,6 +15,8 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream;
 
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFlagsConverter;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,16 @@ import java.util.List;
  *
  * @author phyzicsz
  */
+@XStreamConverter(DisFlagsConverter.class)
 public class DisFlags {
     
     @XStreamImplicit(itemFieldName="flag")
     private List<DisFlag> flags = new ArrayList<>();
 
+    public void addFlag(DisFlag flag){
+        flags.add(flag);
+    }
+    
     public List<DisFlag> getFlags() {
         return flags;
     }

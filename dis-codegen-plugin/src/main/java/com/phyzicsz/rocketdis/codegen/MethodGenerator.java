@@ -40,10 +40,8 @@ public class MethodGenerator {
         MethodSpec.Builder method = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC);
 
-        if (null != dis.getInitialValues()) {
-            for (DisInitialValue initialValue : dis.getInitialValues()) {
-                method.addStatement("$L = $L", initialValue.getName(), initialValue.getInitialValue());
-            }
+        for (DisInitialValue initialValue : dis.getInitialValues()) {
+            method.addStatement("$L = $L", initialValue.getName(), initialValue.getInitialValue());
         }
 
         return method.build();
@@ -105,8 +103,7 @@ public class MethodGenerator {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class);
 
-//        if (null != dis.getParent() && !dis.getParent().equals("root")) {
-        if(dis.getParent().filter(parent -> !parent.equals("root")).isPresent()){
+        if (dis.getParent().filter(parent -> !parent.equals("root")).isPresent()) {
             method.addStatement("wirelineSize += super.wirelineSize()");
         }
 
@@ -152,8 +149,7 @@ public class MethodGenerator {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class);
 
-//        if (null != dis.getParent() && !dis.getParent().equals("root")) {
-        if(dis.getParent().filter(parent -> !parent.equals("root")).isPresent()){
+        if (dis.getParent().filter(parent -> !parent.equals("root")).isPresent()) {
             builder.addStatement("super.serialize(buffer)");
         }
 
@@ -197,8 +193,7 @@ public class MethodGenerator {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class);
 
-//        if (null != dis.getParent() && !dis.getParent().equals("root")) {
-        if(dis.getParent().filter(parent -> !parent.equals("root")).isPresent()){
+        if (dis.getParent().filter(parent -> !parent.equals("root")).isPresent()) {
             builder.addStatement("super.deserialize(buffer)");
         }
 

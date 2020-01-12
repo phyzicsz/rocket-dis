@@ -15,33 +15,37 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream;
 
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisPrimitiveConverter;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import java.util.Optional;
 
 /**
  *
  * @author phyzicsz
  */
+@XStreamConverter(DisPrimitiveConverter.class)
 public class DisPrimitive {
     
     @XStreamAsAttribute
-    private String type;
+    private Optional<String> type = Optional.empty();
     
-    private DisFlags flags;
+    private Optional<DisFlags> flags = Optional.empty();
 
-    public String getType() {
+    public Optional<String> getType() {
         return type;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.type = Optional.ofNullable(type);
     }
 
-    public DisFlags getFlags() {
+    public Optional<DisFlags> getFlags() {
         return flags;
     }
 
     public void setFlags(DisFlags flags) {
-        this.flags = flags;
+        this.flags = Optional.ofNullable(flags);
     }
     
     

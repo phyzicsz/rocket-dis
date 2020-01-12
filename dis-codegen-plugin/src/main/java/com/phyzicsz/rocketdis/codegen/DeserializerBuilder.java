@@ -26,7 +26,7 @@ public class DeserializerBuilder {
 
     public static MethodSpec.Builder singleTypeBuilder(DisAttribute attr, MethodSpec.Builder builder) {
         String name = attr.getName().get();
-        String type = attr.getPrimitive().get().getType();
+        String type = attr.getPrimitive().get().getType().get();
        
         switch (type) {
             case "unsigned short":
@@ -68,7 +68,7 @@ public class DeserializerBuilder {
     
     public static MethodSpec.Builder fixedLengthBuilder(DisAttribute attr, MethodSpec.Builder builder) {
         String name = attr.getName().get();
-        String type = attr.getPrimitive().get().getType();
+        String type = attr.getPrimitive().get().getType().get();
 
         switch (type) {
             case "unsigned short":

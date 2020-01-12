@@ -15,44 +15,51 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream;
 
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFlagConverter;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import java.util.Optional;
 
 /**
  *
  * @author phyzicsz
  */
+@XStreamConverter(DisFlagConverter.class)
 public class DisFlag {
-    @XStreamAsAttribute
-    private String mask;
     
     @XStreamAsAttribute
-    private String name;
+    private Optional<String> mask;
     
     @XStreamAsAttribute
-    private String comment;
+    private Optional<String> name;
+    
+    @XStreamAsAttribute
+    private Optional<String> comment;
+    
+    
 
-    public String getMask() {
+    public Optional<String> getMask() {
         return mask;
     }
 
     public void setMask(String mask) {
-        this.mask = mask;
+        this.mask = Optional.ofNullable(mask);
     }
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = Optional.ofNullable(name);
     }
 
-    public String getComment() {
+    public Optional<String> getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.comment = Optional.ofNullable(comment);
     }
     
     

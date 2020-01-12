@@ -25,7 +25,7 @@ import com.squareup.javapoet.TypeName;
 public class TypeMapper {
 
     public static TypeName typeMapper(final DisPrimitive primitive) {
-        switch (primitive.getType()) {
+        switch (primitive.getType().get()) {
             case "unsigned short":
                 return TypeName.INT;
             case "unsigned byte":
@@ -52,7 +52,7 @@ public class TypeMapper {
     }
 
     public static String getSize(final DisPrimitive primitive) {
-        switch (primitive.getType()) {
+        switch (primitive.getType().get()) {
             case "unsigned short":
                 return "2";
             case "unsigned byte":
