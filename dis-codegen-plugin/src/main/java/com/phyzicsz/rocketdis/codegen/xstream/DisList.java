@@ -15,13 +15,18 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream;
 
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import java.util.Optional;
+import javax.lang.model.element.Modifier;
 
 /**
  *
  * @author phyzicsz
  */
-public class DisList {
+public class DisList extends AbstractAttribute implements AbstractAttributeCodeGeneration{
     
     @XStreamAsAttribute
     private String type;
@@ -32,9 +37,9 @@ public class DisList {
     @XStreamAsAttribute
     private Boolean couldBeString;
     
-    private DisPrimitive primitive;   
+    private Optional<DisPrimitive> primitive = Optional.empty();   
     
-    private DisClassRef classRef;
+    private Optional<DisClassRef> classRef = Optional.empty();
 
     public String getType() {
         return type;
@@ -60,20 +65,61 @@ public class DisList {
         this.couldBeString = couldBeString;
     }
 
-    public DisPrimitive getPrimitive() {
+    public Optional<DisPrimitive> getPrimitive() {
         return primitive;
     }
 
     public void setPrimitive(DisPrimitive primitive) {
-        this.primitive = primitive;
+        this.primitive = Optional.ofNullable(primitive);
     } 
 
-    public DisClassRef getClassRef() {
+    public Optional<DisClassRef> getClassRef() {
         return classRef;
     }
 
     public void setClassRef(DisClassRef classRef) {
-        this.classRef = classRef;
+        this.classRef = Optional.ofNullable(classRef);
+    }
+
+    @Override
+    public Optional<TypeName> typeName() {
+        if (classRef.isPresent()) {
+            return classRef.get().typeName();
+        } else if (primitive.isPresent()){
+            return primitive.get().typeName();
+        }else{
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<String> typeSize() {
+        if (classRef.isPresent()) {
+            return classRef.get().typeSize();
+        } else if (primitive.isPresent()){
+            return primitive.get().typeSize();
+        }else{
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<FieldSpec> fieldSpec() {
+
+        Optional<TypeName> typeNameOptional = typeName();
+        if (typeNameOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        TypeName type = typeNameOptional.get();
+        String name = getName().get();
+        FieldSpec.Builder field = FieldSpec.builder(type, name)
+                .addModifiers(Modifier.PROTECTED);
+        if (!type.isPrimitive()) {
+            field.initializer("new $T()", type);
+        } else {
+            field.initializer("new $T[$L]", type, length);
+        }
+        return Optional.of(field.build());
     }
     
 }

@@ -18,6 +18,15 @@ package com.phyzicsz.rocketdis.codegen;
 import com.phyzicsz.rocketdis.codegen.exceptions.CodeGenerationConfigurationException;
 import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
 import com.phyzicsz.rocketdis.codegen.xstream.DisClasses;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisAttributeConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisClassConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisClassRefConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFixedListConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFlagConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFlagsConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisListConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisPrimitiveConverter;
+import com.phyzicsz.rocketdis.codegen.xstream.converters.DisVariableListConverter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import java.io.File;
@@ -56,7 +65,16 @@ public class CodeGenerator {
         xstream.processAnnotations(DisClasses.class);
         XStream.setupDefaultSecurity(xstream);
         xstream.allowTypes(allowedClasses);
-        ///xstream.registerConverter(new DisClassConverter());
+        xstream.registerConverter(new DisAttributeConverter());
+        xstream.registerConverter(new DisClassConverter());
+        xstream.registerConverter(new DisFlagConverter());
+        xstream.registerConverter(new DisFlagsConverter());
+        xstream.registerConverter(new DisPrimitiveConverter());
+        xstream.registerConverter(new DisClassRefConverter());
+        xstream.registerConverter(new DisListConverter());
+        xstream.registerConverter(new DisVariableListConverter());
+        xstream.registerConverter(new DisFixedListConverter());
+        
 
         URL url = getClass().getClassLoader().getResource(DIS_INPUT_FILE);
         
@@ -77,7 +95,7 @@ public class CodeGenerator {
         
         for (DisClass disClass : classes.getClasses()) {
             
-            if(disClass.getName().get().contains("AcousticEmitter"))
+            if(disClass.getName().get().contains("IFFFundamentalParameterData"))
             {
                 int i = 0;
             }

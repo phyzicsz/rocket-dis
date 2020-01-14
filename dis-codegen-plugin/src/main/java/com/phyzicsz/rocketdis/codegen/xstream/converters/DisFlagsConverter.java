@@ -15,6 +15,7 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream.converters;
 
+import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
 import com.phyzicsz.rocketdis.codegen.xstream.DisFlag;
 import com.phyzicsz.rocketdis.codegen.xstream.DisFlags;
 import com.thoughtworks.xstream.converters.Converter;
@@ -73,6 +74,7 @@ public class DisFlagsConverter implements Converter {
     
     @Override
     public boolean canConvert(Class type) {
-        return DisFlags.class.isAssignableFrom(type);
+        boolean assignable = DisFlags.class.isAssignableFrom(type);
+        return assignable;
     }
 }

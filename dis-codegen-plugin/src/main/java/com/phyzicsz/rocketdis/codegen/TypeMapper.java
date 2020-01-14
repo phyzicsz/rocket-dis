@@ -15,7 +15,6 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.xstream.DisPrimitive;
 import com.squareup.javapoet.TypeName;
 
 /**
@@ -24,8 +23,8 @@ import com.squareup.javapoet.TypeName;
  */
 public class TypeMapper {
 
-    public static TypeName typeMapper(final DisPrimitive primitive) {
-        switch (primitive.getType().get()) {
+    public static TypeName typeMapper(final String type) {
+        switch (type) {
             case "unsigned short":
                 return TypeName.INT;
             case "unsigned byte":
@@ -51,8 +50,8 @@ public class TypeMapper {
         }
     }
 
-    public static String getSize(final DisPrimitive primitive) {
-        switch (primitive.getType().get()) {
+    public static String getSize(final String type) {
+        switch (type) {
             case "unsigned short":
                 return "2";
             case "unsigned byte":

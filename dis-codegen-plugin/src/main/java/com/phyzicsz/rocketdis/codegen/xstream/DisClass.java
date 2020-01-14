@@ -33,7 +33,6 @@ import java.util.Optional;
 public class DisClass{
 
     @XStreamAsAttribute
-    
     private Optional<String> name = Optional.empty();
 
     @XStreamAsAttribute

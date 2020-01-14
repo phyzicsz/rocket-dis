@@ -15,6 +15,8 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
+import com.phyzicsz.rocketdis.codegen.xstream.AbstractAttribute;
+import com.phyzicsz.rocketdis.codegen.xstream.AbstractAttributeCodeGeneration;
 import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
 import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
 import com.squareup.javapoet.ClassName;
@@ -26,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.util.Optional;
 import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,12 +85,13 @@ public class DisClassGenerator {
         }
         
         for (DisAttribute attr : idl.getAttributes()) {
-            FieldSpec field = FieldGenerator.field(attr);
-            MethodSpec getter = MethodGenerator.getter(field);
-            MethodSpec setter = MethodGenerator.setter(field);
-            mainBuilder.addField(field)
-                    .addMethod(getter)
-                    .addMethod(setter);
+            AbstractAttribute aa = attr.getAttributeType().get();
+            Optional<FieldSpec> field = aa.fieldSpec();
+            Optional<MethodSpec> getter = aa.getterSpec(field.get());
+            Optional<MethodSpec> setter = aa.setterSpec(field.get());
+            mainBuilder.addField(field.get())
+                    .addMethod(getter.get())
+                    .addMethod(setter.get());
         }
         
         MethodSpec constructor = MethodGenerator.constructor(idl);

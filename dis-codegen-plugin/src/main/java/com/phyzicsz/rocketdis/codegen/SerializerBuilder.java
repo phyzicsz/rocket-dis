@@ -24,10 +24,7 @@ import com.squareup.javapoet.MethodSpec;
  */
 public class SerializerBuilder {
 
-    public static MethodSpec.Builder singleTypeBuilder(DisAttribute attr, MethodSpec.Builder builder) {
-        String name = attr.getName().get();
-        String type = attr.getPrimitive().get().getType().get();
-
+    public static MethodSpec.Builder singleTypeBuilder(String name, String type, MethodSpec.Builder builder) {
         switch (type) {
             case "unsigned short":
                 builder.addStatement("buffer.putShort((short)$L)", name);
@@ -66,58 +63,56 @@ public class SerializerBuilder {
         return builder;
     }
 
-    public static MethodSpec.Builder fixedLengthBuilder(DisAttribute attr, MethodSpec.Builder builder) {
-        String name = attr.getName().get();
-        String type = attr.getPrimitive().get().getType().get();
+    public static MethodSpec.Builder fixedLengthBuilder(String name, String type, MethodSpec.Builder builder) {
 
         switch (type) {
             case "unsigned short":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putShort((short)$L[i])", name)
                         .endControlFlow();
                 break;
             case "unsigned byte":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.put((byte)$L[i])", name)
                         .endControlFlow();
                 break;
             case "unsigned int":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putInt((int)$L[i])", name)
                         .endControlFlow();
                 break;
             case "unsigned long":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putLong((long)$L[i])", name)
                         .endControlFlow();
                 break;
             case "int":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putInt((int)$L[i])", name)
                         .endControlFlow();
                 break;
             case "short":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putShort((short)$L[i])", name)
                         .endControlFlow();
                 break;
             case "long":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putLong((long)$L[i])", name)
                         .endControlFlow();
                 break;
             case "float":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putFloat((float)$L[i])", name)
                         .endControlFlow();
                 break;
             case "double":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.putDouble((double)$L[i])", name)
                         .endControlFlow();
                 break;
             case "byte":
-                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", attr.getName())
+                builder.beginControlFlow("for (int i = 0; i < $L.length; i++)", name)
                         .addStatement("buffer.put((byte)$L[i])", name)
                         .endControlFlow();
                 break;
@@ -128,9 +123,9 @@ public class SerializerBuilder {
         return builder;
     }
 
-    public static MethodSpec.Builder listBuilder(DisAttribute attr, MethodSpec.Builder builder) {
-        builder.beginControlFlow("for (int i = 0; i < $L.size(); i++)", attr.getName())
-                .addStatement("$L listElement = $L.get(i)", attr.getPrimitive().get().getType(), attr.getName())
+    public static MethodSpec.Builder listBuilder(String name, String type, MethodSpec.Builder builder) {
+        builder.beginControlFlow("for (int i = 0; i < $L.size(); i++)", name)
+                .addStatement("$L listElement = $L.get(i)", type, name)
                 .addStatement("listElement.serialize(buffer)")
                 .endControlFlow();
         return builder;

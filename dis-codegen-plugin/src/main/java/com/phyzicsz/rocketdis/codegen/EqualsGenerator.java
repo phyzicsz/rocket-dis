@@ -50,15 +50,15 @@ public class EqualsGenerator {
                 .append("obj;")
                 .append("\n");
         
-        for(DisAttribute attr: dis.getAttributes()){
-            sb.append("if (!Objects.equals(this.")
-                    .append(attr.getName())
-                    .append(",other.")
-                    .append(attr.getName())
-                    .append(")){")
-                .append("return false;\n")
-                .append("}\n");
-        }
+//        for(DisAttribute attr: dis.getAttributes()){
+//            sb.append("if (!Objects.equals(this.")
+//                    .append(attr.getName())
+//                    .append(",other.")
+//                    .append(attr.getName())
+//                    .append(")){")
+//                .append("return false;\n")
+//                .append("}\n");
+//        }
         
 
         

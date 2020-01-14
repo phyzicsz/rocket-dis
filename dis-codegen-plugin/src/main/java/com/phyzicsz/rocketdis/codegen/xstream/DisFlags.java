@@ -16,17 +16,21 @@
 package com.phyzicsz.rocketdis.codegen.xstream;
 
 import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFlagsConverter;
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author phyzicsz
  */
 @XStreamConverter(DisFlagsConverter.class)
-public class DisFlags {
+public class DisFlags extends AbstractAttribute implements AbstractAttributeCodeGeneration{
     
     @XStreamImplicit(itemFieldName="flag")
     private List<DisFlag> flags = new ArrayList<>();
@@ -42,6 +46,20 @@ public class DisFlags {
     public void setFlags(List<DisFlag> flags) {
         this.flags = flags;
     }
-    
+
+    @Override
+    public Optional<TypeName> typeName() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Optional<String> typeSize() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Optional<FieldSpec> fieldSpec() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

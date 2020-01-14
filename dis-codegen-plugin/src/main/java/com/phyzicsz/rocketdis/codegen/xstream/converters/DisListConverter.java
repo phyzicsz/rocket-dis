@@ -36,9 +36,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author phyzicsz
  */
-public class DisAttributeConverter implements Converter {
+public class DisListConverter implements Converter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisAttributeConverter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DisListConverter.class);
     
     @Override
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext mc) {
@@ -47,23 +47,21 @@ public class DisAttributeConverter implements Converter {
     
     @Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-        DisAttribute attr = new DisAttribute();
-        String attrName = "";
-        String initialValue = "";
-        String comment = "";
+        DisList attr = new DisList();
+       
         
         //get the attributes...
         for (Iterator<String> iter = reader.getAttributeNames(); iter.hasNext();) {
             String name = iter.next();
             switch (name) {
-                case "name":
-                    attrName = reader.getAttribute("name");
+                case "type":
+                    attr.setType(reader.getAttribute("name"));
                     break;
-                case "initialValue":
-                    initialValue = reader.getAttribute("initialValue");
+                case "length":
+                    attr.setLength(Integer.parseInt(reader.getAttribute("length")));
                     break;
-                case "comment":
-                    comment = reader.getAttribute("comment");
+                case "couldBeString":
+                    attr.setCouldBeString(Boolean.parseBoolean(reader.getAttribute("couldBeString")));
                     break;
                 default:
                     LOGGER.info("unsupported attribute: {}", name);
@@ -77,41 +75,14 @@ public class DisAttributeConverter implements Converter {
             switch (nodeName){
                 case "primitive":
                     DisPrimitive primitive = (DisPrimitive)context.convertAnother(attr, DisPrimitive.class);
-                    primitive.setName(attrName);
-                    primitive.setComment(comment);
-                    attr.setAttributeType(primitive);
+                    attr.setPrimitive(primitive);
                     
-                    break;
-                case "list":
-                    DisList list = (DisList)context.convertAnother(attr, DisList.class);
-                    list.setName(attrName);
-                    list.setComment(comment);
-                    attr.setAttributeType(list);
-                    break;
-                case "fixedlist":
-                    DisFixedList fixedList = (DisFixedList)context.convertAnother(attr, DisFixedList.class);
-                    fixedList.setName(attrName);
-                    fixedList.setComment(comment);
-                    attr.setAttributeType(fixedList);
-                    break;
-                case "variablelist":
-                    DisVariableList variableList = (DisVariableList)context.convertAnother(attr, DisVariableList.class);
-                    variableList.setName(attrName);
-                    variableList.setComment(comment);
-                    attr.setAttributeType(variableList);
                     break;
                 case "classRef":
                     DisClassRef classRef = (DisClassRef)context.convertAnother(attr, DisClassRef.class);
-                    classRef.setName(attrName);
-                    classRef.setComment(comment);
-                    attr.setAttributeType(classRef);
+                    attr.setClassRef(classRef);
                     break;
-                case "flags":
-                    DisFlags flags = (DisFlags)context.convertAnother(attr, DisFlags.class);
-                    flags.setName(attrName);
-                    flags.setComment(comment);
-                    attr.setAttributeType(flags);
-                    break;
+               
                 default:
                     LOGGER.info("unhandled attribute type: {}", nodeName);
                         
@@ -123,7 +94,7 @@ public class DisAttributeConverter implements Converter {
     
     @Override
     public boolean canConvert(Class type) {
-        boolean assignable = DisAttribute.class.isAssignableFrom(type);
+        boolean assignable = DisList.class.isAssignableFrom(type);
         return assignable;
     }
 }

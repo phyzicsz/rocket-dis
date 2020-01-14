@@ -47,7 +47,7 @@ public class HashCodeGenerator {
                 .append(thash)
                 .append(" * hash + Objects.hashCode(")
                 .append("this.")
-                .append(attr.getName())
+                //.append(attr.getName())
                 .append(");")
                 .append("\n");
     } 

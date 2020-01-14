@@ -17,15 +17,19 @@ package com.phyzicsz.rocketdis.codegen;
 
 import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
 import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
+import com.phyzicsz.rocketdis.codegen.xstream.DisFixedList;
 import com.phyzicsz.rocketdis.codegen.xstream.DisInitialValue;
+import com.phyzicsz.rocketdis.codegen.xstream.DisVariableList;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import java.nio.ByteBuffer;
 import java.util.Objects;
+import java.util.Optional;
 import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.phyzicsz.rocketdis.codegen.xstream.AbstractAttributeCodeGeneration;
 
 /**
  *
@@ -47,32 +51,32 @@ public class MethodGenerator {
         return method.build();
     }
 
-    public static MethodSpec getter(FieldSpec spec) {
-        String fieldName = spec.name;
-        fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-        MethodSpec method = MethodSpec
-                .methodBuilder("get" + fieldName)
-                .returns(spec.type)
-                .addStatement("return " + spec.name)
-                .addModifiers(Modifier.PUBLIC)
-                .build();
+//    public static MethodSpec getter(FieldSpec spec) {
+//        String fieldName = spec.name;
+//        fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+//        MethodSpec method = MethodSpec
+//                .methodBuilder("get" + fieldName)
+//                .returns(spec.type)
+//                .addStatement("return " + spec.name)
+//                .addModifiers(Modifier.PUBLIC)
+//                .build();
+//
+//        return method;
+//    }
 
-        return method;
-    }
-
-    public static MethodSpec setter(FieldSpec spec) {
-        String fieldName = spec.name;
-        fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-        MethodSpec method = MethodSpec
-                .methodBuilder("set" + fieldName)
-                .returns(TypeName.VOID)
-                .addParameter(spec.type, spec.name)
-                .addStatement("this.$L  = $L", spec.name, spec.name)
-                .addModifiers(Modifier.PUBLIC)
-                .build();
-
-        return method;
-    }
+//    public static MethodSpec setter(FieldSpec spec) {
+//        String fieldName = spec.name;
+//        fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+//        MethodSpec method = MethodSpec
+//                .methodBuilder("set" + fieldName)
+//                .returns(TypeName.VOID)
+//                .addParameter(spec.type, spec.name)
+//                .addStatement("this.$L  = $L", spec.name, spec.name)
+//                .addModifiers(Modifier.PUBLIC)
+//                .build();
+//
+//        return method;
+//    }
 
     public static MethodSpec wirelineSize(Boolean hasSuperclass) {
         LOGGER.info("wirelineSize method spec");
@@ -107,20 +111,27 @@ public class MethodGenerator {
             method.addStatement("wirelineSize += super.wirelineSize()");
         }
 
-        for (DisAttribute attr : dis.getAttributes()) {
-
-            String size = attr.getTypeSize();
-            if (attr.getFixedList().isPresent()) {
-                method.addStatement("wirelineSize += $L; //$L", attr.getFixedList().get().getLength(), attr.getName().get());
-            } else if (attr.getVariableList().isPresent()) {
-                method.beginControlFlow("for (int i = 0; i < $L.size(); i++)", attr.getName().get())
-                        .addStatement("$L listElement = $L.get(i)", attr.getType(), attr.getName().get())
-                        .addStatement("wirelineSize += listElement.wirelineSize()")
-                        .endControlFlow();
-            } else {
-                method.addStatement("wirelineSize += $L; //$L", size, attr.getName().get());
-            }
-        }
+//        for (DisAttribute attr : dis.getAttributes()) {
+//            Optional<AbstractAttributeCodeGeneration> aatOptional = attr.getAttributeType();
+//             if (aatOptional.isEmpty()) {
+//                continue;
+//            }
+//            AbstractAttributeCodeGeneration aat = aatOptional.get();
+//            //String size = aat.getTypeSize();
+//            if (aat instanceof DisFixedList) {
+//                DisFixedList fixedList = (DisFixedList)aat;
+//                method.addStatement("wirelineSize += $L; //$L", ((DisFixedList) aat).getLength(), attr.getName().get());
+//            } 
+//            else if (aat instanceof DisVariableList) {
+//                DisVariableList variableList = (DisVariableList)aat;
+//                method.beginControlFlow("for (int i = 0; i < $L.size(); i++)", attr.getName().get())
+//                        .addStatement("$L listElement = $L.get(i)", variableList.typeName().get(), attr.getName().get())
+//                        .addStatement("wirelineSize += listElement.wirelineSize()")
+//                        .endControlFlow();
+//            } else {
+//                method.addStatement("wirelineSize += $L; //$L", aat.typeSize().get(), attr.getName().get());
+//            }
+//        }
 
         return method.addStatement("return wirelineSize")
                 .build();
@@ -238,12 +249,12 @@ public class MethodGenerator {
 
         method.addStatement("final $L other = ($L)obj", dis.getName().get(), dis.getName().get());
 
-        for (DisAttribute attr : dis.getAttributes()) {
-            TypeName objectType = TypeName.get(Objects.class);
-            method.beginControlFlow("if (!$T.equals(this.$L,other.$L))", objectType, attr.getName().get(), attr.getName().get())
-                    .addStatement("return false")
-                    .endControlFlow();
-        }
+//        for (DisAttribute attr : dis.getAttributes()) {
+//            TypeName objectType = TypeName.get(Objects.class);
+//            method.beginControlFlow("if (!$T.equals(this.$L,other.$L))", objectType, attr.getName().get(), attr.getName().get())
+//                    .addStatement("return false")
+//                    .endControlFlow();
+//        }
 
         return method.addStatement("return true").build();
     }

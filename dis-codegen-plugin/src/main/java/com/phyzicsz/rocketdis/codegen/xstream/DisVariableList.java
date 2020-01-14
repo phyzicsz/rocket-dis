@@ -15,13 +15,20 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream;
 
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import java.util.Optional;
+import javax.lang.model.element.Modifier;
 
 /**
  *
  * @author phyzicsz
  */
-public class DisVariableList {
+public class DisVariableList extends AbstractAttribute implements AbstractAttributeCodeGeneration{
 
     @XStreamAsAttribute
     private String countFieldName;
@@ -44,7 +51,34 @@ public class DisVariableList {
         this.classRef = classRef;
     }
 
-    
-    
-    
+    @Override
+    public Optional<TypeName> typeName() {
+        return classRef.typeName();
+    }
+
+    @Override
+    public Optional<String> typeSize() {
+        return classRef.typeSize();
+    }
+
+    @Override
+    public Optional<FieldSpec> fieldSpec() {
+
+        Optional<TypeName> typeNameOptional = typeName();
+        if (typeNameOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        TypeName type = typeNameOptional.get();
+        String name = getName().get();
+
+        ClassName arrayList = ClassName.get("java.util", "ArrayList");
+        TypeName types = ParameterizedTypeName.get(arrayList, type);
+
+        FieldSpec field = FieldSpec.builder(types, name)
+                .addModifiers(Modifier.PROTECTED)
+                .initializer("new $T<>()", arrayList)
+                .build();
+
+        return Optional.of(field);
+    }
 }

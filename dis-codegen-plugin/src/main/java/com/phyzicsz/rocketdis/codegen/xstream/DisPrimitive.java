@@ -15,17 +15,22 @@
  */
 package com.phyzicsz.rocketdis.codegen.xstream;
 
+import com.phyzicsz.rocketdis.codegen.TypeMapper;
 import com.phyzicsz.rocketdis.codegen.xstream.converters.DisPrimitiveConverter;
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import java.util.Optional;
+import javax.lang.model.element.Modifier;
 
 /**
  *
  * @author phyzicsz
  */
 @XStreamConverter(DisPrimitiveConverter.class)
-public class DisPrimitive {
+public class DisPrimitive extends AbstractAttribute implements AbstractAttributeCodeGeneration{
     
     @XStreamAsAttribute
     private Optional<String> type = Optional.empty();
@@ -47,7 +52,41 @@ public class DisPrimitive {
     public void setFlags(DisFlags flags) {
         this.flags = Optional.ofNullable(flags);
     }
-    
-    
-    
+
+    @Override
+    public Optional<TypeName> typeName() {
+        if(type.isPresent()){
+            return  Optional.of(TypeMapper.typeMapper(type.get()));
+        }else{
+            return Optional.empty();
+        }
+        
+    }
+
+    @Override
+    public Optional<String> typeSize() {
+        if(type.isPresent()){
+            return Optional.of(TypeMapper.getSize(type.get()));
+        }else{
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<FieldSpec> fieldSpec() {
+        Optional<TypeName> typeNameOptional = typeName();
+        if (typeNameOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        TypeName type = typeNameOptional.get();
+        String name = this.getName().get();
+
+        FieldSpec.Builder field = FieldSpec.builder(type, name)
+                .addModifiers(Modifier.PROTECTED);
+        if (!type.isPrimitive()) {
+            field.initializer("new $T()", type);
+        }
+        return Optional.of(field.build());
+    }
+
 }

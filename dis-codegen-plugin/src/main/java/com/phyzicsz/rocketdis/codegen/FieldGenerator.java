@@ -16,12 +16,15 @@
 package com.phyzicsz.rocketdis.codegen;
 
 import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
-import com.squareup.javapoet.ArrayTypeName;
+import com.phyzicsz.rocketdis.codegen.xstream.DisFixedList;
+import com.phyzicsz.rocketdis.codegen.xstream.DisVariableList;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
+import java.util.Optional;
 import javax.lang.model.element.Modifier;
+import com.phyzicsz.rocketdis.codegen.xstream.AbstractAttributeCodeGeneration;
 
 /**
  *
@@ -29,39 +32,62 @@ import javax.lang.model.element.Modifier;
  */
 public class FieldGenerator {
 
-    public static FieldSpec field(DisAttribute attr) throws ClassNotFoundException {
-        TypeName type = attr.getType();
-        
-        //check if fixed list
-        if ((attr.getFixedList().isPresent())) {
-
-            TypeName typeName = ArrayTypeName.of(type);
-            FieldSpec.Builder field = FieldSpec.builder(typeName, attr.getName().get())
-                    .addModifiers(Modifier.PROTECTED);
-            field.initializer("new $T[$L]", type, attr.getFixedList().get().getLength());
-            if (!type.isPrimitive()) {
-                field.initializer("new $T()", type);
-            }
-            return field.build();
-
-        } else if (attr.getVariableList().isPresent()) {
-            //ClassName list = ClassName.get("java.util", "List");
-            ClassName arrayList = ClassName.get("java.util", "ArrayList");
-            TypeName types = ParameterizedTypeName.get(arrayList, type);
-
-            FieldSpec field = FieldSpec.builder(types, attr.getName().get())
-                    .addModifiers(Modifier.PROTECTED)
-                    .initializer("new $T<>()", arrayList)
-                    .build();
-
-            return field;
-        } else {
-            FieldSpec.Builder field = FieldSpec.builder(type, attr.getName().get())
-                    .addModifiers(Modifier.PROTECTED);
-            if (!type.isPrimitive()) {
-                field.initializer("new $T()", type);
-            }
-            return field.build();
-        }
-    }
+//    public static Optional<FieldSpec> field(DisAttribute base) throws ClassNotFoundException {
+//
+//        Optional<AbstractAttributeCodeGeneration> attr = base.getAttributeType();
+//        if (attr.isEmpty()) {
+//            return Optional.empty();
+//        }
+//
+//        AbstractAttributeCodeGeneration aat = attr.get();
+//        if (aat instanceof DisFixedList) {
+//            DisFixedList dis = (DisFixedList) aat;
+//            Optional<TypeName> typeNameOptional = dis.getTypeName();
+//            if (typeNameOptional.isEmpty()) {
+//                return Optional.empty();
+//            }
+//            TypeName type = typeNameOptional.get();
+//            String name = base.getName().get();
+//            FieldSpec.Builder field = FieldSpec.builder(type, name)
+//                    .addModifiers(Modifier.PROTECTED);
+//            if (!type.isPrimitive()) {
+//                field.initializer("new $T()", type);
+//            } else {
+//                field.initializer("new $T[$L]", type, dis.getLength());
+//            }
+//            return Optional.of(field.build());
+//        } else if (aat instanceof DisVariableList) {
+//            DisVariableList dis = (DisVariableList) aat;
+//            Optional<TypeName> typeNameOptional = dis.getTypeName();
+//            if (typeNameOptional.isEmpty()) {
+//                return Optional.empty();
+//            }
+//            TypeName type = typeNameOptional.get();
+//            String name = base.getName().get();
+//
+//            ClassName arrayList = ClassName.get("java.util", "ArrayList");
+//            TypeName types = ParameterizedTypeName.get(arrayList, type);
+//
+//            FieldSpec field = FieldSpec.builder(types, name)
+//                    .addModifiers(Modifier.PROTECTED)
+//                    .initializer("new $T<>()", arrayList)
+//                    .build();
+//
+//            return Optional.of(field);
+//        } else {
+//            Optional<TypeName> typeNameOptional = base.getAttributeType().get().getTypeName();
+//            if (typeNameOptional.isEmpty()) {
+//                return Optional.empty();
+//            }
+//            TypeName type = typeNameOptional.get();
+//            String name = base.getName().get();
+//
+//            FieldSpec.Builder field = FieldSpec.builder(type, name)
+//                    .addModifiers(Modifier.PROTECTED);
+//            if (!type.isPrimitive()) {
+//                field.initializer("new $T()", type);
+//            }
+//            return Optional.of(field.build());
+//        }
+//    }
 }
