@@ -16,7 +16,6 @@
 package com.phyzicsz.rocketdis.codegen.xstream;
 
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import java.util.Optional;

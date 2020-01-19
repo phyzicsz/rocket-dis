@@ -15,7 +15,6 @@
  */
 package com.phyzicsz.rocketdis.codegen;
 
-import com.phyzicsz.rocketdis.codegen.xstream.DisAttribute;
 import com.phyzicsz.rocketdis.codegen.xstream.DisClass;
 
 /**

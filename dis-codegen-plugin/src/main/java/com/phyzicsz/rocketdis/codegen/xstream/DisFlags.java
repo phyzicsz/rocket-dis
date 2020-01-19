@@ -17,7 +17,6 @@ package com.phyzicsz.rocketdis.codegen.xstream;
 
 import com.phyzicsz.rocketdis.codegen.xstream.converters.DisFlagsConverter;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
